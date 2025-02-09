@@ -17,6 +17,9 @@ data_rate_log = []
 power_used_log = []
 
 env = PowerAllocationEnv(num_devices=3, max_power=1.0, noise_power=0.1)
+state_dim = env.state_dim
+action_dim = env.action_dim
+max_action = env.max_power  
 ddpg_agent = DDPG(state_dim, action_dim, max_action)
 
 for episode in range(num_episodes):
