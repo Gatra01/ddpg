@@ -22,8 +22,7 @@ class PowerAllocationEnv:
         self.data_rate = np.zeros(self.num_nodes)  # Data rate awal
         self.energy_efficiency = np.zeros(self.num_nodes)  # Efisiensi energi awal
         
-        self.state = np.concatenate([self.power_alloc.repeat(self.num_nodes), 
-                                     self.channel_gain, self.data_rate, self.energy_efficiency])
+        self.state = np.concatenate([self.power_alloc.repeat(self.num_nodes), self.channel_gain, self.data_rate, self.energy_efficiency])
         return self.state
 
     def step(self, action):
@@ -46,8 +45,8 @@ class PowerAllocationEnv:
         reward = energy_efficiency
         
         # Update state
-        self.state = np.concatenate([action.repeat(self.num_devices_per_node), 
-                                     self.channel_gain, data_rate, np.full(self.num_devices, energy_efficiency)])
+        self.state = np.concatenate([action.repeat(self.num_nodes),self.channel_gain, data_rate, np.full(self.num_nodes, energy_efficiency)])
+
         
         done = False  # Bisa diubah berdasarkan kondisi spesifik
         
