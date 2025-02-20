@@ -1,5 +1,5 @@
 import numpy as np 
-
+from typing import Optional
 class GameState:
     def __init__(self, nodes, p_max):
         self.nodes=nodes
