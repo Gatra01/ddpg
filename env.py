@@ -32,8 +32,10 @@ class GameState:
     
     def hitung_data_rate(self, sinr):
         """Menghitung data rate berdasarkan SINR"""
-        
-        data_rate = np.log(1 + max(sinr, 0))
+        for i in range(len(sinr)):
+            if sinr[i]<0:
+                sinr[i]=0
+        data_rate = np.log(1 + sinr)
         return data_rate
     def hitung_efisiensi_energi(self,power,data_rate):
         """Menghitung efisiensi energi total"""
