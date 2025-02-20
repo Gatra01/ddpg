@@ -15,7 +15,7 @@ class GameState:
         ini_gain= self.generate_channel_gain()
         ini_sinr=self.hitung_sinr(ini_gain,self.p)
         ini_data_rate=self.hitung_data_rate(ini_sinr)
-        ini_EE=self.hitung_efisiensi_energi(self.p,ini_EE)
+        ini_EE=self.hitung_efisiensi_energi(self.p,ini_data_rate)
         result_array = np.concatenate((np.array(ini_data_rate), np.array([ini_EE])))
         return result_array ,{}
     def generate_channel_gain(self):
