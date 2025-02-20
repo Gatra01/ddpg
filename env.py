@@ -1,109 +1,56 @@
-import numpy as np
+import numpy as np 
 
-class PowerAllocationEnv:
-    def __init__(self, num_nodes=2, noise_power=0.01, gamma=0.01, beta=5):
-        self.num_nodes = num_nodes
-        self.p_max = num_nodes
-        self.noise_power = noise_power
-        self.gamma= gamma
-        self.beta=beta
-        
-        # Inisialisasi daya, channel gain, SINR, dan data rate
-        self.power = np.zeros(self.num_nodes)
-        self.channel_gain = np.zeros((self.num_nodes, self.num_nodes))
-        self.sinr = np.zeros(self.num_nodes)
-        self.data_rate = np.zeros(self.num_nodes)
-
-        # Generate daya & channel gain saat objek dibuat
-        self.generate_power()
-        self.generate_channel_gain()
-
-    def generate_power(self):
-        """Menghasilkan daya yang dialokasikan untuk setiap node"""
-        jmlh=0
-        for i in range(self.num_nodes):
-            self.power[i]=np.random.uniform(0,self.p_max-jmlh)
-            jmlh+=self.power[i]
-        self.total_daya=np.sum(self.power)
-        return self.power
-    
+class GameState:
+    def __init__(self, nodes, p_max):
+        self.nodes=nodes
+        self.p_max=p_max
+        self.gamma=0.01
+        self.beta=0.05
+        self.noise_power=0.01
+        self.observation_space=nodes+1
+        self.action_space=nodes
+        self.p=np.random.uniform(0, self.p_max, size=self.nodes)
+    def ini(self,*, seed: Optional[int] = None, options: Optional[dict] = None):
+        super().reset(seed=seed)
+        ini_gain= self.generate_channel_gain()
+        ini_sinr=self.hitung_sinr(c_gain,self.p)
+        ini_data_rate=self.hitung_data_rate(ini_sinr)
+        ini_EE=self.hitung_efisiensi_energi(self.p,ini_EE)
+        result_array = np.concatenate((np.array(ini_data_rate), np.array([ini_EE])))
+        return result_array ,{}
     def generate_channel_gain(self):
-        """Menghasilkan channel gain menggunakan distribusi Rayleigh"""
-        self.channel_gain = np.random.rayleigh(scale=1, size=(self.num_nodes, self.num_nodes))
+        channel_gain = np.random.rayleigh(scale=1, size=(self.nodes, self.nodes))
+        return channel_gain
     
-    def hitung_sinr(self):
-        """Menghitung SINR untuk semua node"""
-        for node_idx in range(self.num_nodes):
-            sinr_numerator = (abs(self.channel_gain[node_idx][node_idx]) ** 2) * self.power[node_idx]
-            sinr_denominator = self.noise_power + np.sum(
-                [(abs(self.channel_gain[node_idx][i]) ** 2) * self.power[i] for i in range(self.num_nodes) if i != node_idx]
-            )
-            self.sinr[node_idx] = sinr_numerator / sinr_denominator
-        return self.sinr 
+    def hitung_sinr(self, channel_gain, power):
+        sinr=np.zeros(self.nodes)
+        for node_idx in range(self.nodes):
+            sinr_numerator = (abs(channel_gain[node_idx][node_idx]) ** 2) * power[node_idx]
+            sinr_denominator = self.noise_power + np.sum([(abs(channel_gain[node_idx][i]) ** 2) * power[i] for i in range(self.nodes) if i != node_idx])
+            sinr[node_idx] = sinr_numerator / sinr_denominator
+        return sinr 
     
-    def hitung_data_rate(self):
+    def hitung_data_rate(self, sinr):
         """Menghitung data rate berdasarkan SINR"""
-        self.hitung_sinr()
-        self.data_rate = np.log(1 + self.sinr)
-
-    def hitung_efisiensi_energi(self):
+        data_rate = np.log(1 + sinr)
+        return data_rate
+    def hitung_efisiensi_energi(self,power,data_rate):
         """Menghitung efisiensi energi total"""
-        total_power = np.sum(self.power)
-        total_rate = np.sum(self.data_rate)
-        self.EE=total_rate / total_power if total_power > 0 else 0
+        total_power = np.sum(power)
+        total_rate = np.sum(data_rate)
+        energi_efisiensi=total_rate / total_power if total_power > 0 else 0
+        return energi_efisiensi
 
-        return self.EE  # Menghindari pembagian dengan nol
+    def step(self,power):
+        self.last_power=power
+        new_channel_gain=generate_channel_gain()
+        new_sinr=hitung_sinr(new_channel_gain,power)
+        new_data_rate=hitung_data_rate(new_sinr)
+        EE=hitung_efisiensi_energi(power,new_data_rate)
+        total_daya=np.sum(power)
+        reward = EE+np.sum(((np.array(data_rate)-self.gamma)*self.beta).tolist())+ self.beta*(total_daya-self.p_max)
 
-    def observasi(self) :# Pastikan semua nilai telah diperbarui
-        obs = np.vstack((self.power, self.data_rate)).tolist()
-        return obs
-    def observasi2(self):
-        return self.generate_power()
-    def reward(self) :
-        self.reward = self.EE+np.sum(((np.array(self.data_rate)-self.gamma)*self.beta).tolist())+ self.beta*(self.total_daya-self.p_max)
-        return self.reward
-    def reset(self):
-        """Reset environment untuk episode baru"""
-        self.generate_power()
-        self.generate_channel_gain()
-        self.hitung_data_rate()
-        return self.observasi()  # Mengembalikan state awal
-    def run_simulation(self):
-        """Menjalankan seluruh proses perhitungan"""
-        self.hitung_data_rate()
-        return {
-            "power": self.power,
-            "channel_gain": self.channel_gain,
-            "sinr": self.sinr,
-            "data_rate": self.data_rate,
-            "energy_efficiency": self.hitung_efisiensi_energi(),
-            "obs":self.observasi(),
-            "totalpower":self.total_daya,
-            "reward" : self.reward(),
-            'reset' : self.reset()
-            #"step" : self.step()
-        }
-
-# Contoh penggunaan
-
-#result = env.run_simulation()
-
-# Menampilkan hasil
-'''print("Power:\n", result["power"])
-print("Channel Gain:\n", result["channel_gain"])
-print("SINR:\n", result["sinr"])
-print("Data Rate:\n", result["data_rate"])
-print("Energy Efficiency:", result["energy_efficiency"])
-#print("obs:", result["obs"])
-print("tot power",result["totalpower"])
-print("reward",result["reward"])
-print("reset",result["reset"])
-print("step",result["step"])'''
-efisiensi_energi=[0 for i in range(5)]
-env = PowerAllocationEnv(5, 5, 0.01)
-print(env.hitung_efisiensi_energi())
-
-#print(min(efisiensi_energi))
-#print(max(efisiensi_energi))
-
+        return EE,reward, False,False,{}
+    
+    
 
