@@ -98,6 +98,7 @@ def main():
                 '''record & log'''
                 if total_steps % opt.eval_interval == 0:
                     state_eval=eval_env.ini()
+                    state_eval = np.array(state_eval, dtype=np.float32)
                     ep_r = evaluate_policy(state_eval,eval_env, agent, turns=3)
                     if opt.write: writer.add_scalar('ep_r', ep_r, global_step=total_steps)
                     print(f'EnvName:{BrifEnvName[opt.EnvIdex]}, Steps: {int(total_steps/1000)}k, Episode Reward:{ep_r}')
