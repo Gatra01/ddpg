@@ -38,7 +38,7 @@ class Q_Critic(nn.Module):
 def evaluate_policy(env, agent, turns = 3):
     total_scores = 0
     for j in range(turns):
-        s, info = env.reset()
+        s, info = env.ini()
         done = False
         while not done:
             # Take deterministic actions at test time
