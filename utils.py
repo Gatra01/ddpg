@@ -35,14 +35,14 @@ class Q_Critic(nn.Module):
         q = self.l3(q)
         return q
 
-def evaluate_policy(env, agent, turns = 3):
+def evaluate_policy(state, env, agent, turns = 3):
     total_scores = 0
     for j in range(turns):
-        s, info = env.ini()
+        #s, info = env.ini()
         done = False
         while not done:
             # Take deterministic actions at test time
-            a = agent.select_action(s, deterministic=True)
+            a = agent.select_action(state, deterministic=True)
             s_next, r, dw, tr, info = env.step(a)
             done = (dw or tr)
 
