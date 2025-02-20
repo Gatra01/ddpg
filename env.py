@@ -43,10 +43,10 @@ class GameState:
 
     def step(self,power):
         self.last_power=power
-        new_channel_gain=generate_channel_gain()
-        new_sinr=hitung_sinr(new_channel_gain,power)
-        new_data_rate=hitung_data_rate(new_sinr)
-        EE=hitung_efisiensi_energi(power,new_data_rate)
+        new_channel_gain=self.generate_channel_gain()
+        new_sinr=self.hitung_sinr(new_channel_gain,power)
+        new_data_rate=self.hitung_data_rate(new_sinr)
+        EE=self.hitung_efisiensi_energi(power,new_data_rate)
         total_daya=np.sum(power)
         reward = EE+np.sum(((np.array(data_rate)-self.gamma)*self.beta).tolist())+ self.beta*(total_daya-self.p_max)
 
