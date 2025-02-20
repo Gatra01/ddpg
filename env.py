@@ -25,8 +25,8 @@ class GameState:
     def hitung_sinr(self, channel_gain, power):
         sinr=np.zeros(self.nodes)
         for node_idx in range(self.nodes):
-            sinr_numerator = (abs(channel_gain[node_idx][node_idx]) ** 2) * float(power[node_idx])
-            sinr_denominator = self.noise_power + np.sum([(abs(channel_gain[node_idx][i]) ** 2) * float(power[i]) for i in range(self.nodes) if i != node_idx])
+            sinr_numerator = (abs(channel_gain[node_idx][node_idx]) ** 2) * power[node_idx]
+            sinr_denominator = self.noise_power + np.sum([(abs(channel_gain[node_idx][i]) ** 2) * power[i] for i in range(self.nodes) if i != node_idx])
             sinr[node_idx] = sinr_numerator / sinr_denominator
         return sinr 
     
