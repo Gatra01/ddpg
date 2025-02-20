@@ -11,7 +11,7 @@ class GameState:
         self.action_space=nodes
         self.p=np.random.uniform(0, self.p_max, size=self.nodes)
     def ini(self,*, seed: Optional[int] = None, options: Optional[dict] = None):
-        super().reset(seed=seed)
+        super().ini(seed=seed)
         ini_gain= self.generate_channel_gain()
         ini_sinr=self.hitung_sinr(c_gain,self.p)
         ini_data_rate=self.hitung_data_rate(ini_sinr)
