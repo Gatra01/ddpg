@@ -82,7 +82,7 @@ def main():
 
             '''Interact & trian'''
             while not done:  
-                if total_steps < opt.random_steps: a = env.ini()
+                if total_steps < opt.random_steps: a = env.p
                 else: a = agent.select_action(s, deterministic=False)
                 s_next, r, dw, tr, info = env.step(a) # dw: dead&win; tr: truncated
                 done = (dw or tr)
