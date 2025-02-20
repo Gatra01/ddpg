@@ -87,7 +87,7 @@ def main():
                 s_next, r, dw, tr, info = env.step(a) # dw: dead&win; tr: truncated
                 done = (dw or tr)
 
-                agent.replay_buffer.add(s, a, r, np.array(s_next, dtype=np.float32), dw)
+                agent.replay_buffer.add(np.array(s, dtype=np.float32), a, r, np.array(s_next, dtype=np.float32), dw)
                 s = s_next
                 total_steps += 1
 
