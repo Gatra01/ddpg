@@ -79,7 +79,7 @@ def main():
             s,info= env.ini(seed=env_seed)  # Do not use opt.seed directly, or it can overfit to opt.seed
             env_seed += 1
             done = False
-            if total_steps=50000000:
+            if total_steps==50000000:
                 print(s)
 
             '''Interact & trian'''
