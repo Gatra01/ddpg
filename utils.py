@@ -38,7 +38,7 @@ class Q_Critic(nn.Module):
 def evaluate_policy(state, env, agent, turns = 3):
     total_scores = 0
     for j in range(turns):
-        print("cek")
+        print(j)
         #s, info = env.ini()
         done = False
         MAX_STEPS = 50  # Batas maksimum langkah per episode
