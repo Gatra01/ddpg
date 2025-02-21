@@ -42,6 +42,7 @@ def evaluate_policy(state, env, agent, turns = 3):
         #s, info = env.ini()
         done = False
         while not done:
+            print("ini while")
             # Take deterministic actions at test time
             a = agent.select_action(state, deterministic=True)
             s_next, r, dw, tr, info = env.step(a)
