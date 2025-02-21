@@ -38,6 +38,7 @@ class Q_Critic(nn.Module):
 def evaluate_policy(state, env, agent, turns = 3):
     total_scores = 0
     for j in range(turns):
+        print("cek")
         #s, info = env.ini()
         done = False
         while not done:
