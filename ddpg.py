@@ -24,7 +24,7 @@ class DDPG_agent():
 	def select_action(self, state, deterministic):
 		with torch.no_grad():
 			state=np.array(state, dtype=np.float32)
-			print(state)
+			
 			state = torch.FloatTensor(state[np.newaxis, :]).to(self.dvc)  # from [x,x,...,x] to [[x,x,...,x]]
 			a = self.actor(state).cpu().numpy()[0] # from [[x,x,...,x]] to [x,x,...,x]
 			if deterministic:
