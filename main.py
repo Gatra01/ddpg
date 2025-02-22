@@ -76,11 +76,10 @@ def main():
     else:
         total_steps = 0
         while total_steps < opt.Max_train_steps:
-            print("ini aku loop utama")
             s,info= env.ini(seed=env_seed)  # Do not use opt.seed directly, or it can overfit to opt.seed
             env_seed += 1
             done = False
-            print(s)
+            print("ini aku di loop utama")
 
             '''Interact & trian'''
             while not done:  
