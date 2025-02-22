@@ -76,6 +76,7 @@ def main():
     else:
         total_steps = 0
         while total_steps < opt.Max_train_steps:
+            print("ini aku loop utama")
             s,info= env.ini(seed=env_seed)  # Do not use opt.seed directly, or it can overfit to opt.seed
             env_seed += 1
             done = False
@@ -106,7 +107,7 @@ def main():
                     state_eval = np.array(state_eval, dtype=np.float32)
                     ep_r = evaluate_policy(state_eval,eval_env, agent, turns=3)
                     if opt.write: writer.add_scalar('ep_r', ep_r, global_step=total_steps)
-                    print(f'EnvName:{BrifEnvName[opt.EnvIdex]}, Steps: {int(total_steps/1000)}k, Episode Reward:{ep_r}')
+                    print(f'EnvName:{BrifEnvName[opt.EnvIdex]}, Steps: {int(total_steps/1000)}k, Episode Reward:{ep_r}, ini aku akhir loop')
 
                 '''save model'''
                 if total_steps % opt.save_interval == 0:
