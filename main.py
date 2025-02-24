@@ -74,7 +74,7 @@ def main():
             state_eval1,inf=env.ini()
             state_eval1 = np.array(state_eval1, dtype=np.float32)
             score = evaluate_policy(state_eval1,env, agent, turns=1)
-            print('EnvName:', BrifEnvName[opt.EnvIdex], 'score:', score)
+            print('EnvName:', BrifEnvName[opt.EnvIdex], 'score:', score, )
     else:
         total_steps = 0
         while total_steps < opt.Max_train_steps:
