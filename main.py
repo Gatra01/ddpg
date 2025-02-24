@@ -86,8 +86,6 @@ def main():
                 #print(total_steps, opt.random_steps)
                 if total_steps < opt.random_steps: a = env.p
                 else: 
-                    print("ini di else")
-                    print(s)
                     a = agent.select_action(s, deterministic=False)
                 s_next, r, dw, tr, info = env.step(a) # dw: dead&win; tr: truncated
                 done = (dw or tr)
@@ -106,7 +104,7 @@ def main():
                     state_eval = np.array(state_eval, dtype=np.float32)
                     ep_r = evaluate_policy(state_eval,eval_env, agent, turns=3)
                     if opt.write: writer.add_scalar('ep_r', ep_r, global_step=total_steps)
-                    print(f'EnvName:{BrifEnvName[opt.EnvIdex]}, Steps: {int(total_steps/1000)}k, Episode Reward:{ep_r}, ini aku akhir loop')
+                    print(f'EnvName:{BrifEnvName[opt.EnvIdex]}, Steps: {int(total_steps/1000)}k, Episode Reward:{ep_r}')
 
                 '''save model'''
                 if total_steps % opt.save_interval == 0:
