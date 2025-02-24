@@ -46,6 +46,7 @@ def evaluate_policy(state, env, agent, turns = 3):
             step_count += 1
             # Take deterministic actions at test time
             a = agent.select_action(state, deterministic=True)
+            print(a)
             s_next, r, dw, tr, info = env.step(a)
             if step_count==MAX_STEPS:
                 tr=True
