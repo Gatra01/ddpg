@@ -71,7 +71,9 @@ def main():
 
     if opt.render:
         while True:
-            score = evaluate_policy(env, agent, turns=1)
+            state_eval1,inf=env.ini()
+            state_eval1 = np.array(state_eval1, dtype=np.float32)
+            score = evaluate_policy(state_eval1,env, agent, turns=1)
             print('EnvName:', BrifEnvName[opt.EnvIdex], 'score:', score)
     else:
         total_steps = 0
