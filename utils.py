@@ -40,18 +40,19 @@ def evaluate_policy(state, env, agent, turns = 3):
     for j in range(turns):
         #s, info = env.ini()
         done = False
-        MAX_STEPS = 50  # Batas maksimum langkah per episode
+        MAX_STEPS = 200  # Batas maksimum langkah per episode
         step_count = 0
-        while not done and step_count < MAX_STEPS:
-            
+        while not done:
+            step_count += 1
             # Take deterministic actions at test time
             a = agent.select_action(state, deterministic=True)
             s_next, r, dw, tr, info = env.step(a)
+            if step_count==MAX_STEPS:
+                tr=True
             done = (dw or tr)
 
             total_scores += r
             s = s_next
-            step_count += 1
     return int(total_scores/turns)
 
 
