@@ -5,7 +5,7 @@ class GameState:
         self.nodes=nodes
         self.p_max=p_max
         self.gamma=0.01
-        self.beta=0.05
+        self.beta=1
         self.noise_power=0.01
         self.observation_space=nodes+1
         self.action_space=nodes
@@ -52,7 +52,7 @@ class GameState:
         EE=self.hitung_efisiensi_energi(power,new_data_rate)
         total_daya=np.sum(power)
         result_array = np.concatenate((np.array(new_data_rate), np.array([EE])))
-        reward = EE+np.sum(((np.array(new_data_rate)-self.gamma)*self.beta).tolist())+ self.beta*(total_daya-self.p_max)
+        reward = EE+np.sum(((np.array(new_data_rate)-self.gamma)*self.beta).tolist())+ self.beta*(self.p_max-total_daya)
 
         return result_array,reward, False,False,{}
     
