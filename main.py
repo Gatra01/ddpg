@@ -114,8 +114,7 @@ def main():
                 '''save model'''
                 if total_steps % opt.save_interval == 0:
                     agent.save(BrifEnvName[opt.EnvIdex], int(total_steps/1000))
-        env.close()
-        eval_env.close()
+        print("The end")
 
 
 if __name__ == '__main__':
