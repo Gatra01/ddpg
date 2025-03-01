@@ -52,10 +52,10 @@ class GameState:
         EE=self.hitung_efisiensi_energi(power,new_data_rate)
         total_daya=np.sum(power)
         result_array = np.concatenate((np.array(new_data_rate), np.array([EE])))
-        reward = EE+np.sum(((np.array(new_data_rate)-self.gamma)*self.beta).tolist())+ 10*(self.p_max-total_daya)
+        reward = EE+np.sum(((np.array(new_data_rate)-self.gamma)*2).tolist())+ 3*(self.p_max-total_daya)
         for i in power :
             if i<=0:
-                reward-=500
+                reward-=5
 
         return result_array,reward, False,False,{}
     
