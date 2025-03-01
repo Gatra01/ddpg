@@ -31,7 +31,7 @@ class DDPG_agent():
 				return a
 			else:
 				noise = np.random.normal(0, self.max_action * self.noise, size=self.action_dim)
-				return (a + noise).clip(-self.max_action, self.max_action)
+				return (a + noise).clip(0, self.max_action)
 
 	def train(self):
 		# Compute the target Q
