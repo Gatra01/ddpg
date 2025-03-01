@@ -82,15 +82,18 @@ def main():
             env_seed += 1
             done = False
             print("ini aku di loop utama")
-
+            langkah = 0
             '''Interact & trian'''
             while not done:  
                 #print(total_steps, opt.random_steps)
+                langkah +=1
                 if total_steps < opt.random_steps: a = env.p
                 else: 
                     a = agent.select_action(s, deterministic=False)
                 s_next, r, dw, tr, info = env.step(a) # dw: dead&win; tr: truncated
                 done = (dw or tr)
+                print(langkah)
+                print(done)
 
                 agent.replay_buffer.add(np.array(s, dtype=np.float32), a, r, np.array(s_next, dtype=np.float32), dw)
                 s = s_next
