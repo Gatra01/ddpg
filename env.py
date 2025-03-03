@@ -18,6 +18,7 @@ class GameState:
         ini_EE=self.hitung_efisiensi_energi(self.p,ini_data_rate)
         result_array = np.concatenate((np.array(ini_data_rate), np.array([ini_EE])))
         return result_array ,{}
+        #tambahin channel gain, disamain kaya algoritma GNN
     def generate_channel_gain(self):
         channel_gain = np.random.rayleigh(scale=1, size=(self.nodes, self.nodes))
         return channel_gain
