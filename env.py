@@ -10,14 +10,14 @@ class GameState:
         self.observation_space=nodes+1
         self.action_space=nodes
         self.p=np.random.uniform(0, self.p_max, size=self.nodes)
-    def ini(self,*, seed: Optional[int] = None, options: Optional[dict] = None,channel_gain):
+    def ini(self,*, seed: Optional[int] = None, options: Optional[dict] = None):
         #super().ini(seed=seed)
-        #ini_gain= self.generate_channel_gain()
+        ini_gain= self.generate_channel_gain()
         ini_sinr=self.hitung_sinr(channel_gain,self.p)
         ini_data_rate=self.hitung_data_rate(ini_sinr)
         ini_EE=self.hitung_efisiensi_energi(self.p,ini_data_rate)
         result_array = np.concatenate((np.array(ini_data_rate), np.array([ini_EE])))
-        return result_array ,{}
+        return result_array ,{},ini_gain
         #tambahin channel gain, disamain kaya algoritma GNN
     def generate_channel_gain(self):
         channel_gain = np.random.rayleigh(scale=1, size=(self.nodes, self.nodes))
