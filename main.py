@@ -72,8 +72,8 @@ def main():
     if opt.render:
         
         while True:
-            channel_gain=env.generate_channel_gain()
-            state_eval1,inf=env.ini(channel_gain)
+            #channel_gain=env.generate_channel_gain()
+            state_eval1,inf,cg=env.ini()
             state_eval1 = np.array(state_eval1, dtype=np.float32)
             score = evaluate_policy(state_eval1,env, agent, turns=1)
             
@@ -81,8 +81,8 @@ def main():
     else:
         total_steps = 0
         while total_steps < opt.Max_train_steps:
-            channel_gain=env.generate_channel_gain()
-            s,info= env.ini(seed=env_seed,channel_gain)  # Do not use opt.seed directly, or it can overfit to opt.seed
+            #channel_gain=env.generate_channel_gain()
+            s,info,channel_gain= env.ini(seed=env_seed)  # Do not use opt.seed directly, or it can overfit to opt.seed
             env_seed += 1
             done = False
             print("ini aku di loop utama")
@@ -109,7 +109,7 @@ def main():
 
                 '''record & log'''
                 if total_steps % opt.eval_interval == 0:
-                    state_eval,inf=eval_env.ini(channel_gain)
+                    state_eval,inf,cg=eval_env.ini()
                     state_eval = np.array(state_eval, dtype=np.float32)
                     ep_r = evaluate_policy(state_eval,eval_env, agent, turns=3)
                     if opt.write: writer.add_scalar('ep_r', ep_r, global_step=total_steps)
