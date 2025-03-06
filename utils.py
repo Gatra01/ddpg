@@ -35,7 +35,7 @@ class Q_Critic(nn.Module):
         q = self.l3(q)
         return q
 
-def evaluate_policy(state, env, agent, turns = 3, render):
+def evaluate_policy(state, env, agent, turns = 3):
     total_scores = 0
     for j in range(turns):
         #s, info = env.ini()
