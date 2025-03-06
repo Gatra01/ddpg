@@ -75,7 +75,7 @@ def main():
             channel_gain=env.generate_channel_gain()
             state_eval1,inf=env.ini(channel_gain)
             state_eval1 = np.array(state_eval1, dtype=np.float32)
-            score = evaluate_policy(state_eval1,env, agent, turns=1)
+            score = evaluate_policy(channel_gain,state_eval1,env, agent, turns=1)
             
             print('EnvName:', BrifEnvName[opt.EnvIdex], 'score:', score, )
     else:
@@ -111,7 +111,7 @@ def main():
                 if total_steps % opt.eval_interval == 0:
                     state_eval,inf=eval_env.ini(channel_gain)
                     state_eval = np.array(state_eval, dtype=np.float32)
-                    ep_r = evaluate_policy(state_eval,eval_env, agent, turns=3)
+                    ep_r = evaluate_policy(channel_gain,state_eval,eval_env, agent, turns=3)
                     if opt.write: writer.add_scalar('ep_r', ep_r, global_step=total_steps)
                     print(f'EnvName:{BrifEnvName[opt.EnvIdex]}, Steps: {int(total_steps/1000)}k, Episode Reward:{ep_r}')
 
