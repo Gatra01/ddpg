@@ -28,7 +28,7 @@ parser.add_argument('--net_width', type=int, default=400, help='Hidden net width
 parser.add_argument('--a_lr', type=float, default=1e-3, help='Learning rate of actor')
 parser.add_argument('--c_lr', type=float, default=1e-3, help='Learning rate of critic')
 parser.add_argument('--batch_size', type=int, default=128, help='batch_size of training')
-parser.add_argument('--random_steps', type=int, default=1000, help='random steps before trianing')
+parser.add_argument('--random_steps', type=int, default=40000, help='random steps before trianing')
 parser.add_argument('--noise', type=float, default=0.1, help='exploring noise')
 opt = parser.parse_args()
 opt.dvc = torch.device(opt.dvc) # from str to torch.device
