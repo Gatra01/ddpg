@@ -35,7 +35,7 @@ class Q_Critic(nn.Module):
         q = self.l3(q)
         return q
 
-def evaluate_policy(state, env, agent, turns = 3):
+def evaluate_policy(channel_gain,state, env, agent, turns = 3):
     total_scores = 0
     for j in range(turns):
         #s, info = env.ini()
@@ -48,7 +48,7 @@ def evaluate_policy(state, env, agent, turns = 3):
             a = agent.select_action(state, deterministic=True)
             #if render :
             #    print(a)
-            s_next, r, dw, tr, info = env.step(a)
+            s_next, r, dw, tr, info = env.step(a,channel_gain)
             
             if step_count==MAX_STEPS:
                 tr=True
