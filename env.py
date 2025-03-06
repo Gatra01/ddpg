@@ -10,10 +10,10 @@ class GameState:
         self.observation_space=nodes+1
         self.action_space=nodes
         self.p=np.random.uniform(0, self.p_max, size=self.nodes)
-    def ini(self,*, seed: Optional[int] = None, options: Optional[dict] = None):
+    def ini(self,*, seed: Optional[int] = None, options: Optional[dict] = None,channel_gain):
         #super().ini(seed=seed)
-        ini_gain= self.generate_channel_gain()
-        ini_sinr=self.hitung_sinr(ini_gain,self.p)
+        #ini_gain= self.generate_channel_gain()
+        ini_sinr=self.hitung_sinr(channel_gain,self.p)
         ini_data_rate=self.hitung_data_rate(ini_sinr)
         ini_EE=self.hitung_efisiensi_energi(self.p,ini_data_rate)
         result_array = np.concatenate((np.array(ini_data_rate), np.array([ini_EE])))
@@ -45,10 +45,10 @@ class GameState:
         energi_efisiensi=total_rate / total_power if total_power > 0 else 0
         return energi_efisiensi
 
-    def step(self,power):
+    def step(self,power,channel_gain):
         self.last_power=power
-        new_channel_gain=self.generate_channel_gain()
-        new_sinr=self.hitung_sinr(new_channel_gain,power)
+        #new_channel_gain=self.generate_channel_gain()
+        new_sinr=self.hitung_sinr(channel_gain,power)
         new_data_rate=self.hitung_data_rate(new_sinr)
         EE=self.hitung_efisiensi_energi(power,new_data_rate)
         total_daya=np.sum(power)
