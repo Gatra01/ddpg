@@ -70,12 +70,12 @@ def main():
     if opt.Loadmodel: agent.load(BrifEnvName[opt.EnvIdex], opt.ModelIdex)
 
     if opt.render:
-        a=opt.render
+        
         while True:
             channel_gain=env.generate_channel_gain()
             state_eval1,inf=env.ini(channel_gain)
             state_eval1 = np.array(state_eval1, dtype=np.float32)
-            score = evaluate_policy(state_eval1,env, agent, turns=1, a)
+            score = evaluate_policy(state_eval1,env, agent, turns=1)
             
             print('EnvName:', BrifEnvName[opt.EnvIdex], 'score:', score, )
     else:
