@@ -13,7 +13,7 @@ class GameState:
     def ini(self,*, seed: Optional[int] = None, options: Optional[dict] = None):
         #super().ini(seed=seed)
         ini_gain= self.generate_channel_gain()
-        ini_sinr=self.hitung_sinr(channel_gain,self.p)
+        ini_sinr=self.hitung_sinr(ini_gain,self.p)
         ini_data_rate=self.hitung_data_rate(ini_sinr)
         ini_EE=self.hitung_efisiensi_energi(self.p,ini_data_rate)
         result_array = np.concatenate((np.array(ini_data_rate), np.array([ini_EE])))
