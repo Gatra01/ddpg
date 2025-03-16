@@ -54,7 +54,7 @@ class GameState:
         total_daya=np.sum(power)
         fairness = np.var(power)
         result_array = np.concatenate((np.array(new_data_rate), np.array([EE])))
-        reward = EE+np.sum(((np.array(new_data_rate)-self.gamma)).tolist())+(self.p_max-total_daya)+fairness
+        reward = np.sum(((np.array(new_data_rate)-self.gamma)).tolist())+(self.p_max-total_daya)
         return result_array,reward, False,False,{}
     
     
