@@ -28,8 +28,8 @@ parser.add_argument('--net_width', type=int, default=400, help='Hidden net width
 parser.add_argument('--a_lr', type=float, default=1e-3, help='Learning rate of actor')
 parser.add_argument('--c_lr', type=float, default=1e-3, help='Learning rate of critic')
 parser.add_argument('--batch_size', type=int, default=128, help='batch_size of training')
-parser.add_argument('--random_steps', type=int, default=40000, help='random steps before trianing')
-parser.add_argument('--noise', type=float, default=0.1, help='exploring noise')
+parser.add_argument('--random_steps', type=int, default=50000, help='random steps before trianing')
+parser.add_argument('--noise', type=float, default=0.2, help='exploring noise')
 opt = parser.parse_args()
 opt.dvc = torch.device(opt.dvc) # from str to torch.device
 
@@ -85,7 +85,6 @@ def main():
             s,info= env.ini(channel_gain, seed=env_seed)  # Do not use opt.seed directly, or it can overfit to opt.seed
             env_seed += 1
             done = False
-            print("ini aku di loop utama")
             langkah = 0
             '''Interact & trian'''
             while not done:  
@@ -95,8 +94,9 @@ def main():
                 else: 
                     a = agent.select_action(s, deterministic=False)
                 s_next, r, dw, tr, info = env.step(a,channel_gain) # dw: dead&win; tr: truncated
-                if langkah == 200 :
+                if langkah == 300 :
                     tr= True
+                    dw=True
                 done = (dw or tr)
 
                 agent.replay_buffer.add(np.array(s, dtype=np.float32), a, r, np.array(s_next, dtype=np.float32), dw)
